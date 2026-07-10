@@ -8,6 +8,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from backend.api.deps import get_current_user
 from models.user import User
 from services.ocr_service import ocr_service
+from services.anonymizer_service import anonymizer_service
 
 router = APIRouter(prefix="/api/upload", tags=["Upload"])
 
@@ -48,7 +49,13 @@ async def upload_pdf(
                 detail="Could not extract text from PDF. The file may be empty or corrupted."
             )
 
-        return {"text": text.strip(), "pages": pages}
+        # Anonymize PII before returning to client
+        # The frontend will send this anonymized text to AI agents.
+        # Real values are stored encrypted in the PII vault (SQLite).
+        user_id = str(_current_user.id)
+        anonymized_text = anonymizer_service.anonymize(text.strip(), user_id)
+
+        return {"text": anonymized_text, "pages": pages}
 
     except HTTPException:
         raise

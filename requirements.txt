@@ -16,6 +16,8 @@ requests
 beautifulsoup4
 pypdf
 PyMuPDF
+cryptography
+spacy
 striprtf
 
 # === AI / ML ===

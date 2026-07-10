@@ -54,7 +54,18 @@ class AuthService:
                 FOREIGN KEY (user_id) REFERENCES users(id)
             )
         """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS pii_vault (
+                id TEXT PRIMARY KEY,
+                user_id TEXT NOT NULL,
+                token TEXT NOT NULL,
+                encrypted_value TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                UNIQUE(user_id, token)
+            )
+        """)
         conn.commit()
+
 
     # --- Password hashing (bcrypt directly — no passlib) ---
 
@@ -179,3 +190,29 @@ class AuthService:
             ),
         )
         conn.commit()
+
+    def save_vault_entry(self, user_id: str, token: str, encrypted_value: str):
+        """Save/update an encrypted PII token mapping to SQLite."""
+        from datetime import datetime
+        conn = self._get_conn()
+        conn.execute(
+            "INSERT OR REPLACE INTO pii_vault (id, user_id, token, encrypted_value, created_at) VALUES (?, ?, ?, ?, ?)",
+            (
+                str(uuid.uuid4()),
+                user_id,
+                token,
+                encrypted_value,
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            )
+        )
+        conn.commit()
+
+    def get_vault_entries(self, user_id: str) -> Dict[str, str]:
+        """Load all token -> encrypted_value mappings for a user."""
+        conn = self._get_conn()
+        rows = conn.execute(
+            "SELECT token, encrypted_value FROM pii_vault WHERE user_id = ?",
+            (user_id,)
+        ).fetchall()
+        return {row["token"]: row["encrypted_value"] for row in rows}
+

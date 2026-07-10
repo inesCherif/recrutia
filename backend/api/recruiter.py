@@ -17,6 +17,7 @@ from backend.api.deps import get_current_user, auth_service
 from backend.api.dependencies import get_recruiter_coordinator
 from models.user import User
 from agents.entrepreneur.recruiter_agents import RecruiterCoordinator
+from services.anonymizer_service import anonymizer_service
 
 router = APIRouter(prefix="/api/recruiter", tags=["Recruiter"])
 
@@ -78,9 +79,25 @@ def score_candidates(
     coordinator: RecruiterCoordinator = Depends(get_recruiter_coordinator),
 ):
     """AI-score candidates against job requirements."""
-    candidates_dicts = [c.dict() for c in req.candidates]
+    user_id = str(current_user.id)
+
+    # Anonymize each candidate's CV before sending to the AI scoring agent.
+    # This ensures real names/emails are never sent to external APIs.
+    candidates_dicts = []
+    for c in req.candidates:
+        d = c.dict()
+        d["cv_text"] = anonymizer_service.anonymize(d.get("cv_text", ""), user_id)
+        candidates_dicts.append(d)
+
     scored = coordinator.evaluate_candidates(candidates_dicts, req.job_data)
     scored_with_plans = coordinator.plan_interviews(scored, req.job_data)
+
+    # Deanonymize the candidate names in the results returned to the recruiter UI
+    for candidate in scored_with_plans:
+        if "nom" in candidate:
+            candidate["nom"] = anonymizer_service.deanonymize(candidate["nom"], user_id)
+        if "prenom" in candidate:
+            candidate["prenom"] = anonymizer_service.deanonymize(candidate["prenom"], user_id)
 
     return {"scored_candidates": scored_with_plans}
 

@@ -13,6 +13,7 @@ from backend.api.deps import get_current_user
 from backend.api.dependencies import get_cv_analyzer, get_student_coordinator
 from models.user import User
 from agents.student.multi_agent_system import CVAnalyzerAgent, CoordinatorAgent
+from services.anonymizer_service import anonymizer_service
 
 router = APIRouter(prefix="/api/student", tags=["Student"])
 
@@ -89,9 +90,15 @@ def generate_application(
     """Generate optimized CV, cover letter, and LinkedIn message for a specific job."""
     results = coordinator.run_full_pipeline(req.cv_text, req.job)
 
+    # Deanonymize: restore real names/emails in the user-facing output
+    user_id = str(current_user.id)
+    optimized_cv     = anonymizer_service.deanonymize(results.get("optimized_cv", ""), user_id)
+    cover_letter     = anonymizer_service.deanonymize(results.get("cover_letter", ""), user_id)
+    linkedin_message = anonymizer_service.deanonymize(results.get("linkedin_message", ""), user_id)
+
     return {
-        "optimized_cv": results.get("optimized_cv", ""),
-        "cover_letter": results.get("cover_letter", ""),
-        "linkedin_message": results.get("linkedin_message", ""),
+        "optimized_cv": optimized_cv,
+        "cover_letter": cover_letter,
+        "linkedin_message": linkedin_message,
         "job_analysis": results.get("job_analysis", {}),
     }
