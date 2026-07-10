@@ -15,6 +15,7 @@ python-dotenv
 requests
 beautifulsoup4
 pypdf
+PyMuPDF
 striprtf
 
 # === AI / ML ===

@@ -1,12 +1,13 @@
-"""
-File Upload API Route
-POST /api/upload/pdf — Extract text from a PDF file
-"""
+# File Upload API Route
+# POST /api/upload/pdf — Extract text from a PDF file
+# Uses OCRService for smart fallback (PyPDF -> Pixtral VLM)
+#
 
 import io
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from backend.api.deps import get_current_user
 from models.user import User
+from services.ocr_service import ocr_service
 
 router = APIRouter(prefix="/api/upload", tags=["Upload"])
 
@@ -16,46 +17,41 @@ async def upload_pdf(
     file: UploadFile = File(...),
     _current_user: User = Depends(get_current_user),
 ):
-    """Upload a PDF and extract text content using PyPDF2."""
+    """Upload a PDF and extract text content using smart OCR / PyPDF."""
     if not file.filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF files are supported")
 
     try:
         contents = await file.read()
-        pdf_reader = None
-        text = ""
-
-        # Try PyPDF2 first
+        
+        # Calculate page count for response
+        pages = 0
         try:
             from pypdf import PdfReader
-            pdf_reader = PdfReader(io.BytesIO(contents))
-            for page in pdf_reader.pages:
-                page_text = page.extract_text()
-                if page_text:
-                    text += page_text + "\n"
-        except ImportError:
+            reader = PdfReader(io.BytesIO(contents))
+            pages = len(reader.pages)
+        except Exception:
             try:
-                from PyPDF2 import PdfReader as PdfReader2
-                pdf_reader = PdfReader2(io.BytesIO(contents))
-                for page in pdf_reader.pages:
-                    page_text = page.extract_text()
-                    if page_text:
-                        text += page_text + "\n"
-            except ImportError:
-                raise HTTPException(
-                    status_code=500,
-                    detail="No PDF library available. Install pypdf or PyPDF2."
-                )
+                import fitz
+                doc = fitz.open(stream=contents, filetype="pdf")
+                pages = len(doc)
+                doc.close()
+            except Exception:
+                pass
+
+        # Extract text via OCR service
+        text = ocr_service.extract_text(contents)
 
         if not text.strip():
             raise HTTPException(
                 status_code=400,
-                detail="Could not extract text from PDF. The file may be image-based."
+                detail="Could not extract text from PDF. The file may be empty or corrupted."
             )
 
-        return {"text": text.strip(), "pages": len(pdf_reader.pages) if pdf_reader else 0}
+        return {"text": text.strip(), "pages": pages}
 
     except HTTPException:
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading PDF: {str(e)}")
+
