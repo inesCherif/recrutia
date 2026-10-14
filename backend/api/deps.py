@@ -12,7 +12,7 @@ from models.user import User
 from services.auth_service import AuthService
 
 # JWT Config
-SECRET_KEY = os.getenv("JWT_SECRET", "agentichire-secret-key-change-in-production")
+SECRET_KEY = os.getenv("JWT_SECRET", "recrutia-secret-key-change-in-production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_HOURS = 24
 

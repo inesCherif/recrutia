@@ -33,7 +33,7 @@ export default function LoginPage({ onLogin }) {
   return (
     <div className="login-page">
       <div className="glass-card login-card">
-        <h1>🤖 AgenticHire</h1>
+        <h1>🤖 Recrutia</h1>
         <p>Plateforme de Recrutement IA — Multi-Agents</p>
 
         {error && <div className="error-msg">{error}</div>}

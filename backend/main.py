@@ -1,5 +1,5 @@
 """
-AgenticHire — FastAPI Backend Entry Point
+Recrutia — FastAPI Backend Entry Point
 ==========================================
 Run with: uvicorn backend.main:app --reload --port 8000
 """
@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.api import auth, chat, recruiter, student, upload
 
 app = FastAPI(
-    title="AgenticHire API",
+    title="Recrutia API",
     description="AI-powered recruitment platform — Multi-Agent backend",
     version="2.0.0",
 )
@@ -38,7 +38,7 @@ app.include_router(upload.router)
 @app.get("/")
 def root():
     return {
-        "app": "AgenticHire API",
+        "app": "Recrutia API",
         "version": "2.0.0",
         "docs": "/docs",
         "status": "running"

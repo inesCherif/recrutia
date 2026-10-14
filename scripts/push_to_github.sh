@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "=========================================="
-echo "🚀 AgenticHire - Automation GitHub"
+echo "🚀 Recrutia - Automation GitHub"
 echo "=========================================="
 
 # 1. Initialisation
@@ -20,8 +20,8 @@ git add .
 # 3. Commit
 echo ""
 echo "[3/5] Création du commit..."
-read -p "Entrez le message du commit (défaut: 'Mise à jour AgenticHire'): " commit_msg
-commit_msg=${commit_msg:-"Mise à jour AgenticHire"}
+read -p "Entrez le message du commit (défaut: 'Mise à jour Recrutia'): " commit_msg
+commit_msg=${commit_msg:-"Mise à jour Recrutia"}
 git commit -m "$commit_msg"
 
 # 4. Configuration du Remote
@@ -29,7 +29,7 @@ echo ""
 echo "[4/5] Configuration du Remote..."
 if ! git remote | grep -q origin; then
     echo "Configuration de l'URL distant..."
-    git remote add origin https://github.com/KAROUIFARES/AgenticHire.git
+    git remote add origin https://github.com/inesCherif/recrutia.git
 else
     echo "Remote 'origin' déjà configuré."
 fi

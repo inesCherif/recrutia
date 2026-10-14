@@ -5,7 +5,7 @@ load_dotenv()
 
 class Settings:
     # App
-    APP_NAME = "AgenticHire"
+    APP_NAME = "Recrutia"
     VERSION = "1.0.0 (Hackathon Edition)"
     
     # Paths

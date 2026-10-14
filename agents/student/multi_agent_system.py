@@ -2,7 +2,7 @@
 AI Job Scout - Multi-Agent System
 ==================================================
 Complete autonomous agents with WORKING SCRAPERS + Demo Mode
-Refactored for AgenticHire
+Refactored for Recrutia
 
 All 7 Agents:
 1. CVAnalyzerAgent - Deep CV understanding

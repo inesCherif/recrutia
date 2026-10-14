@@ -1,11 +1,11 @@
-# 🤖 AgenticHire
+# 🤖 Recrutia
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688)
 ![React](https://img.shields.io/badge/React-Frontend-61DAFB)
 ![AI Agents](https://img.shields.io/badge/AI-Multi--Agent-orange)
 
-**AgenticHire** est une plateforme de recrutement de nouvelle génération, propulsée par un écosystème **Multi-Agents** basé sur Mistral AI.
+**Recrutia** est une plateforme de recrutement de nouvelle génération, propulsée par un écosystème **Multi-Agents** basé sur Mistral AI.
 
 Elle réunit **Recruteurs** et **Étudiants/Candidats** dans une interface conversationnelle unifiée ("Chat-First"), automatisant l'intégralité du pipeline de recrutement et de recherche d'emploi.
 
@@ -22,7 +22,7 @@ Elle réunit **Recruteurs** et **Étudiants/Candidats** dans une interface conve
 - **Recruteurs** : Perte de temps sur la rédaction d'offres, le tri des CVs et la gestion des emails.
 - **Candidats** : Difficulté à trouver des offres pertinentes et à adapter leur CV à chaque poste.
 
-## ✨ La Solution AgenticHire
+## ✨ La Solution Recrutia
 
 L'application détecte automatiquement votre rôle (via NLP) et active les agents appropriés.
 
@@ -55,7 +55,7 @@ L'application détecte automatiquement votre rôle (via NLP) et active les agent
 | **LLM & IA** | Mistral AI |
 | **Orchestration** | Architecture modulaire personnalisée |
 | **Scraping** | Beautiful Soup 4, python-jobspy, Requests |
-| **Base de données** | SQLite (`data/agentichire.db`) |
+| **Base de données** | SQLite (`data/recrutia.db`) |
 
 ---
 
@@ -70,8 +70,8 @@ L'application détecte automatiquement votre rôle (via NLP) et active les agent
 ### 1. Cloner le projet
 
 ```bash
-git clone https://github.com/azizhraghi/agentic_hire.git
-cd agentic_hire
+git clone https://github.com/inesCherif/recrutia.git
+cd recrutia
 ```
 
 ### 2. Backend (FastAPI)
@@ -152,7 +152,7 @@ L'application sera accessible sur :
 ## 🏗️ Architecture des Dossiers
 
 ```text
-AgenticHire/
+Recrutia/
 ├── backend/                # API FastAPI
 │   ├── main.py             # Point d'entrée FastAPI
 │   ├── routes/             # Endpoints API

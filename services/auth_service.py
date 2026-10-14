@@ -11,7 +11,7 @@ from utils.logger import AgenticLogger
 class AuthService:
     """Authentication service backed by SQLite (thread-safe, concurrent-access safe)."""
 
-    def __init__(self, db_path: str = "data/agentichire.db"):
+    def __init__(self, db_path: str = "data/recrutia.db"):
         self.db_path = db_path
         self.logger = AgenticLogger("AuthService")
         self._local = threading.local()

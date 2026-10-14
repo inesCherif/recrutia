@@ -11,7 +11,7 @@ if sys.stdout and sys.stdout.encoding != 'utf-8':
         pass
 
 class AgenticLogger:
-    """Logger principal de l'application AgenticHire"""
+    """Logger principal de l'application Recrutia"""
     
     def __init__(self, name: str):
         self.name = name

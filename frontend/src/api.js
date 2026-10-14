@@ -6,10 +6,10 @@
 const API_BASE = "http://localhost:8000/api";
 
 // --- Toast Event System ---
-// Components listen for "agentichire:toast" events on window.
+// Components listen for "recrutia:toast" events on window.
 export function dispatchToast(message, type = "error", duration = 5000) {
   window.dispatchEvent(
-    new CustomEvent("agentichire:toast", {
+    new CustomEvent("recrutia:toast", {
       detail: { message, type, duration, id: Date.now() },
     })
   );
@@ -18,15 +18,15 @@ export function dispatchToast(message, type = "error", duration = 5000) {
 // --- Token Management ---
 
 function getToken() {
-  return localStorage.getItem("agentichire_token");
+  return localStorage.getItem("recrutia_token");
 }
 
 export function setToken(token) {
-  localStorage.setItem("agentichire_token", token);
+  localStorage.setItem("recrutia_token", token);
 }
 
 export function clearToken() {
-  localStorage.removeItem("agentichire_token");
+  localStorage.removeItem("recrutia_token");
 }
 
 export function isAuthenticated() {

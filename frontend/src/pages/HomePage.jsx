@@ -21,7 +21,7 @@ export default function HomePage({ user, onNavigate }) {
             {greeting}, <span className="gradient-text">{user?.username || "Utilisateur"}</span> 👋
           </h1>
           <p className="home-subtitle">
-            Bienvenue sur AgenticHire — votre plateforme de recrutement propulsée par 7 agents IA autonomes.
+            Bienvenue sur Recrutia — votre plateforme de recrutement propulsée par 7 agents IA autonomes.
           </p>
         </div>
         <div className="home-hero-badge">

@@ -27,8 +27,8 @@ function ToastContainer() {
       setTimeout(() => removeToast(toast.id), toast.duration || 5000);
     }
 
-    window.addEventListener("agentichire:toast", handleToast);
-    return () => window.removeEventListener("agentichire:toast", handleToast);
+    window.addEventListener("recrutia:toast", handleToast);
+    return () => window.removeEventListener("recrutia:toast", handleToast);
   }, [removeToast]);
 
   if (toasts.length === 0) return null;
@@ -124,7 +124,7 @@ export default function App() {
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-logo" onClick={() => setPage("home")} style={{ cursor: "pointer" }}>
-          <span>🤖 AgenticHire</span>
+          <span>🤖 Recrutia</span>
         </div>
 
         <nav className="sidebar-nav">

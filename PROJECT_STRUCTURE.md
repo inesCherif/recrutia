@@ -1,7 +1,7 @@
-# AgenticHire — Project Structure
+# Recrutia — Project Structure
 
 ```
-AgenticHire/
+Recrutia/
 ├── agents/                     # AI Agent logic
 │   ├── core/                   # Shared orchestrator + comprehension
 │   │   ├── orchestrator.py     # Request routing & coordination
@@ -52,7 +52,7 @@ AgenticHire/
 ├── utils/
 │   └── logger.py               # Logging setup
 ├── data/
-│   ├── agentichire.db          # SQLite database for users and offers
+│   ├── recrutia.db          # SQLite database for users and offers
 │   └── *.json                  # Legacy/local data exports
 ├── scripts/
 │   ├── push_to_github.sh
